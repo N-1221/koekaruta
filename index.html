@@ -48,7 +48,7 @@ button{font:inherit;cursor:pointer}
   <div class="stage"><p>ボタンをおして こえをきいてね</p><button class="play" id="playBtn">▶</button></div>
   <div class="grid" id="gameGrid"></div>
   <p class="fb" id="fb"></p>
-  <div class="center"><button class="btn hidden" id="nextBtn">つぎへ →</button> <button class="btn" id="backBtn">設定にもどる</button></div>
+  <div class="center"><button class="btn hidden" id="nextBtn">つぎへ →</button></div>
 </section>
 </div>
 <script>
@@ -68,7 +68,7 @@ let curAudio=null;
 function playVoice(p){
   if(curAudio){curAudio.pause();curAudio=null}
   if(synth)synth.cancel();
-  if(p.url){curAudio=new Audio(p.url);curAudio.play();return}
+  if(p.url){curAudio=new Audio(p.url);curAudio.play().catch(()=>{});return}
   const u=new SpeechSynthesisUtterance('わたしはだれでしょう');
   u.lang='ja-JP';u.pitch=p.pitch;u.rate=p.rate;synth&&synth.speak(u);
 }
@@ -127,6 +127,6 @@ function newRound(){
 $('startBtn').onclick=()=>{$('setup').classList.add('hidden');$('game').classList.remove('hidden');sc=st=0;$('sc').textContent=0;$('st').textContent=0;newRound()};
 $('playBtn').onclick=()=>target&&playVoice(target);
 $('nextBtn').onclick=newRound;
-$('backBtn').onclick=()=>{$('game').classList.add('hidden');$('setup').classList.remove('hidden');renderSetup()};
-renderSetup();
+
+$('setup').classList.add('hidden');$('game').classList.remove('hidden');newRound();
 </script></body></html>
